@@ -14,7 +14,7 @@ export type ConversationListItem = {
     updatedAt: Date;
 };
 
-export async function assertOwnsCoversation(
+export async function assertOwnsConversation(
     conversationId: string,
     userId: string,
 ) {
@@ -67,7 +67,7 @@ export async function createConversation(title = "New Chat") {
 export async function deleteConversation(conversationId: string) {
     const user = await requireUser();
 
-    await assertOwnsCoversation(conversationId, user.id);
+    await assertOwnsConversation(conversationId, user.id);
 
     await prisma.conversation.delete({
         where: {
@@ -85,7 +85,7 @@ export async function updateConversation(
     data: { title?: string; isPinned?: boolean; isArchived?: boolean },
 ) {
     const user = await requireUser();
-    await assertOwnsCoversation(conversationId, user.id);
+    await assertOwnsConversation(conversationId, user.id);
 
     const conversation = await prisma.conversation.update({
         where: { id: conversationId },
