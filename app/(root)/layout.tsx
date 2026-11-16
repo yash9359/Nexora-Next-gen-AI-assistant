@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { onBoard } from "@/features/auth/action/onboard";
 import { auth } from "@clerk/nextjs/server";
+import { ChatShell } from "@/features/conversation/components/chat-shell";
 
 async function OnBoardSync() {
   await auth.protect();
@@ -14,7 +15,9 @@ const RootGrouplayout = ({ children }: { children: React.ReactNode }) => {
       <Suspense fallback={null}>
         <OnBoardSync />
       </Suspense>
+      <ChatShell>
       {children}
+      </ChatShell>
     </div>
   );
 };
