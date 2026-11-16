@@ -14,6 +14,8 @@ export type ConversationListItem = {
     updatedAt: Date;
 };
 
+
+
 export async function assertOwnsConversation(
     conversationId: string,
     userId: string,
@@ -50,17 +52,29 @@ export async function listConversation(): Promise<ConversationListItem[]> {
     });
 }
 
-// create karunga new chat
 
+
+export const getConversation = async(conversationId:string) => {
+    const user  = await requireUser();
+
+   return await assertOwnsConversation(conversationId,user.id)
+
+}
+
+
+// create karunga new chat
 export async function createConversation(title = "New Chat") {
     const user = await requireUser();
 
-    return prisma.conversation.create({
+    const conversation = await prisma.conversation.create({
         data: {
             userId: user.id,
             title: title.trim() || "New Chat",
         },
     });
+
+    revalidatePath("/");
+    return conversation;
 }
 
 // delete conversation

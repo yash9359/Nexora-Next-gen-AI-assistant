@@ -1,14 +1,9 @@
-import { ModeToggle } from "@/components/ui/mode-toggle";
-import { UserButton } from "@clerk/nextjs";
-import Image from "next/image";
-
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-     <h1>Hello world</h1>
-          <ModeToggle/>
-          <UserButton/>
-    </div>
-
+    <main className="flex h-full flex-1 items-center justify-center p-6">
+      <p className="text-sm text-muted-foreground">
+        Start a new chat from the sidebar, or select an existing chat.
+      </p>
+    </main>
   );
 }
