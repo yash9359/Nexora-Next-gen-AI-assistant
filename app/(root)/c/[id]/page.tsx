@@ -1,3 +1,4 @@
+import { loadChatMessages } from "@/features/ai/actions/chat-store";
 import { getConversation } from "@/features/conversation/actions/conversation-actions";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
@@ -19,9 +20,17 @@ async function ConversationContent({
         notFound();
     }
 
+    const initialMessages = await loadChatMessages(id);
   
 
-    return <div>{id}</div>;
+    return (
+            <ConversationView
+            key = {id}
+            conversationId = {id}
+            initialMessages={initialMessages}
+
+            />
+    );
 }
 
 const page = ({ params }: ConversationPageProps) => {
