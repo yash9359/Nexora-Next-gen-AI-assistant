@@ -3,7 +3,6 @@
 @import "shadcn/tailwind.css";
 @import "streamdown/styles.css";
 
-
 @source "../node_modules/streamdown/styles.css";
 
 @custom-variant dark (&:is(.dark *));
@@ -121,16 +120,48 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
   }
+}
+
+/* Sleek dark/black scrollbar (ChatGPT / Gemini style) */
+
+
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #2e2e2e;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #454545;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
 }

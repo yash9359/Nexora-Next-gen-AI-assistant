@@ -6,6 +6,7 @@ import { CheckCircle2, Loader2, Wrench } from "lucide-react";
 import {
   Conversation,
   ConversationContent,
+  ConversationScrollButton
 } from "@/components/ai-elements/conversation";
 import {
   Message,
@@ -44,8 +45,8 @@ export function ChatMessages({ messages, status }: ChatMessagesProps) {
     status === "submitted" && messages.at(-1)?.role === "user";
 
   return (
-    <Conversation className="flex-1 overflow-y-auto">
-      <ConversationContent className="mx-auto max-w-3xl py-8">
+    <Conversation className="relative flex-1 overflow-y-auto">
+      <ConversationContent className="w-full space-y-6 px-4 pt-6 pb-10 md:px-8">
         {messages.map((message) => (
           <Message key={message.id} from={message.role}>
             <MessageContent>
@@ -95,6 +96,7 @@ export function ChatMessages({ messages, status }: ChatMessagesProps) {
           </Message>
         ) : null}
       </ConversationContent>
+      <ConversationScrollButton />
     </Conversation>
   );
 }
