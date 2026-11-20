@@ -12,7 +12,7 @@ export function ChatShell({ children }: { children: React.ReactNode }) {
 
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className="flex h-screen min-h-0 w-full overflow-hidden">
+      <SidebarInset className="flex h-svh min-h-0 w-full overflow-hidden">
         {children}
       </SidebarInset>
     </SidebarProvider>

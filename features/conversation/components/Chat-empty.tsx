@@ -16,12 +16,12 @@ const SUGGESTIONS = [
 
 export default function ChatEmpty({ onSelectPrompt }: ChatEmptyProps) {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center px-4 text-center">
+    <div className="flex flex-1 flex-col items-center justify-center overflow-y-auto px-4 py-8 text-center">
       <div className="mb-4 flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
         <Image src="/nexoraIcon_transparentsvg.svg" alt="Nexora Icon" width={48} height={48} />
       </div>
 
-      <h2 className="text-2xl font-semibold tracking-tight">
+      <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
         Hello, how can I help you today?
       </h2>
       <p className="mt-2 max-w-md text-sm text-muted-foreground">
@@ -29,13 +29,13 @@ export default function ChatEmpty({ onSelectPrompt }: ChatEmptyProps) {
       </p>
 
       {onSelectPrompt && (
-        <div className="mt-8 grid w-full max-w-2xl grid-cols-1 gap-2 sm:grid-cols-2">
+        <div className="mt-6 grid w-full max-w-2xl grid-cols-1 gap-2 sm:mt-8 sm:grid-cols-2">
           {SUGGESTIONS.map((prompt) => (
             <button
               key={prompt}
               type="button"
               onClick={() => onSelectPrompt(prompt)}
-              className="rounded-xl border border-border/70 bg-muted/30 px-4 py-3 text-left text-sm text-foreground transition-colors hover:bg-muted"
+              className="min-h-12 rounded-xl border border-border/70 bg-muted/30 px-4 py-3 text-left text-sm text-foreground transition-colors hover:bg-muted"
             >
               {prompt}
             </button>

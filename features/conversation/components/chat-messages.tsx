@@ -46,7 +46,7 @@ export function ChatMessages({ messages, status }: ChatMessagesProps) {
 
   return (
     <Conversation className="relative flex-1 overflow-y-auto">
-      <ConversationContent className="w-full space-y-6 px-4 pt-6 pb-10 md:px-8">
+      <ConversationContent className="w-full space-y-5 px-3 pt-5 pb-8 sm:px-4 sm:pt-6 md:px-8">
         {messages.map((message) => (
           <Message key={message.id} from={message.role}>
             <MessageContent>

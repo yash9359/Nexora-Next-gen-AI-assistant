@@ -13,14 +13,14 @@ function ConversationSkeleton() {
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden bg-background">
      
-      <header className="flex h-14 shrink-0 items-center gap-3 border-b px-3">
+      <header className="flex h-14 shrink-0 items-center gap-3 border-b px-3 sm:px-4">
         <Skeleton className="size-7 rounded-md" />
         <Skeleton className="h-4 w-36 rounded-md" />
       </header>
 
       
       <div className="flex-1 overflow-hidden">
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-8 md:px-6">
+        <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-3 py-6 sm:px-4 sm:py-8 md:px-6">
           
           <div className="flex justify-end">
             <Skeleton className="h-10 w-48 rounded-2xl" />
@@ -47,7 +47,7 @@ function ConversationSkeleton() {
       </div>
 
       
-      <div className="shrink-0 px-4 pb-6 pt-2 md:px-6">
+      <div className="shrink-0 px-3 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-2 sm:px-4 md:px-6">
         <div className="mx-auto w-full max-w-3xl">
           <Skeleton className="h-14 w-full rounded-3xl" />
         </div>

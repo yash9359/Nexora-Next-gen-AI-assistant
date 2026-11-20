@@ -41,14 +41,14 @@ export default function HomePage() {
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden bg-background">
    
-      <header className="flex h-14 shrink-0 items-center gap-2 border-b px-3">
-        <SidebarTrigger />
-        <Separator orientation="vertical" className="mx-1 h-4" />
+      <header className="flex h-14 shrink-0 items-center gap-2 border-b px-3 sm:px-4">
+        <SidebarTrigger className="size-10 sm:size-8" />
+        <Separator orientation="vertical" className="mx-1 hidden h-4 sm:block" />
         <span className="text-sm font-medium text-muted-foreground">Home</span>
       </header>
 
 
-      <main className="flex flex-1 flex-col items-center justify-center overflow-y-auto px-4 py-10">
+      <main className="flex flex-1 flex-col items-center justify-center overflow-y-auto px-4 py-8 sm:py-10">
         <div className="flex w-full max-w-2xl flex-col items-center text-center">
           {/* Logo */}
           <div className="relative mb-5 flex size-14 items-center justify-center overflow-hidden rounded-2xl border bg-primary/10 shadow-sm">
@@ -86,7 +86,7 @@ export default function HomePage() {
               : "Start a New Chat"}
           </Button>
 
-          <div className="mt-10 grid w-full grid-cols-1 gap-3 text-left sm:grid-cols-3">
+          <div className="mt-8 grid w-full grid-cols-1 gap-3 text-left sm:mt-10 sm:grid-cols-3">
             {QUICK_STARTS.map((item) => {
               const Icon = item.icon;
               return (
@@ -95,7 +95,7 @@ export default function HomePage() {
                   type="button"
                   disabled={createConversation.isPending}
                   onClick={() => createConversation.mutate(item.chatTitle)}
-                  className="group flex flex-col gap-2 rounded-2xl border border-border/70 bg-muted/20 p-4 transition-all hover:border-border hover:bg-muted/50 disabled:opacity-50"
+                  className="group flex min-h-28 flex-col gap-2 rounded-2xl border border-border/70 bg-muted/20 p-4 transition-all hover:border-border hover:bg-muted/50 disabled:opacity-50"
                 >
                   <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary transition-transform group-hover:scale-105">
                     <Icon className="size-4" />

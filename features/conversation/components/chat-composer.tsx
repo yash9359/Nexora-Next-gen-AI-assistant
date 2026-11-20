@@ -57,7 +57,10 @@ export function ChatComposer({
   return (
     <form
       onSubmit={(event) => void handleSubmit(event)}
-      className={cn("mx-auto w-full max-w-3xl px-4 pb-4 md:px-6", className)}
+      className={cn(
+        "mx-auto w-full max-w-3xl px-3 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-4 md:px-6",
+        className
+      )}
     >
       <div className="flex min-h-14 items-end gap-2 rounded-3xl border border-border/80 bg-background p-2 shadow-sm focus-within:ring-1 focus-within:ring-ring dark:bg-input/40">
         <textarea
@@ -68,14 +71,14 @@ export function ChatComposer({
           placeholder={placeholder}
           disabled={isSending}
           rows={1}
-          className="max-h-48 min-h-10 w-full resize-none bg-transparent py-2 pl-3 text-[15px] leading-relaxed outline-none placeholder:text-muted-foreground disabled:opacity-50"
+          className="max-h-48 min-h-10 w-full resize-none bg-transparent py-2 pl-3 text-base leading-relaxed outline-none placeholder:text-muted-foreground disabled:opacity-50 sm:text-[15px]"
         />
         <Button
           type="submit"
           size="icon"
           variant="default"
           disabled={!canSend}
-          className="size-9 shrink-0 rounded-full"
+          className="size-10 shrink-0 rounded-full sm:size-9"
           aria-label="Send message"
         >
           {isSending ? (

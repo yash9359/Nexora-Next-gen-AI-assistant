@@ -58,9 +58,9 @@ const ConversationView = ({
 
   return (
     <div className="flex h-svh min-h-0 flex-1 flex-col overflow-hidden bg-background">
-      <header className="flex h-14 shrink-0 items-center gap-2 border-b bg-background/80 px-3 backdrop-blur-sm">
-        <SidebarTrigger />
-        <Separator orientation="vertical" className="mx-1 h-4" />
+      <header className="flex h-14 shrink-0 items-center gap-2 border-b bg-background/80 px-3 backdrop-blur-sm sm:px-4">
+        <SidebarTrigger className="size-10 sm:size-8" />
+        <Separator orientation="vertical" className="mx-1 hidden h-4 sm:block" />
         <h1 className="truncate text-sm font-medium">{title}</h1>
       </header>
 

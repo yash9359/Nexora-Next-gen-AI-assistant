@@ -41,6 +41,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
     SidebarRail,
+    useSidebar,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -60,12 +61,19 @@ type Conversation = NonNullable<
  */
 export function AppSidebar() {
     const pathname = usePathname();
+    const { isMobile, setOpenMobile } = useSidebar();
     const { data: conversations, isLoading } = useConversations();
     const createConversation = useCreateConversation();
 
     const activeId = pathname.startsWith("/c/")
         ? pathname.split("/")[2]
         : undefined;
+
+    // A selected chat should take the user straight to its contents on phones.
+    // Keep the persistent desktop sidebar unchanged.
+    React.useEffect(() => {
+        if (isMobile) setOpenMobile(false);
+    }, [isMobile, pathname, setOpenMobile]);
 
     return (
         <Sidebar collapsible="icon" variant="inset">
