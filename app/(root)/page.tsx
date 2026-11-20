@@ -40,14 +40,14 @@ export default function HomePage() {
 
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden bg-background">
-      {/* Top Header */}
+   
       <header className="flex h-14 shrink-0 items-center gap-2 border-b px-3">
         <SidebarTrigger />
         <Separator orientation="vertical" className="mx-1 h-4" />
         <span className="text-sm font-medium text-muted-foreground">Home</span>
       </header>
 
-      {/* Main Centered Content */}
+
       <main className="flex flex-1 flex-col items-center justify-center overflow-y-auto px-4 py-10">
         <div className="flex w-full max-w-2xl flex-col items-center text-center">
           {/* Logo */}
@@ -61,7 +61,7 @@ export default function HomePage() {
             />
           </div>
 
-          {/* Heading */}
+  
           <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
             Welcome to Nexora AI
           </h1>
@@ -70,7 +70,6 @@ export default function HomePage() {
             to continue where you left off.
           </p>
 
-          {/* Primary CTA Button */}
           <Button
             size="lg"
             className="mt-6 gap-2 rounded-full px-6"
@@ -87,7 +86,6 @@ export default function HomePage() {
               : "Start a New Chat"}
           </Button>
 
-          {/* Quick Start Cards */}
           <div className="mt-10 grid w-full grid-cols-1 gap-3 text-left sm:grid-cols-3">
             {QUICK_STARTS.map((item) => {
               const Icon = item.icon;
