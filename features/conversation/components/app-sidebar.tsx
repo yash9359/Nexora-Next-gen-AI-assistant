@@ -76,11 +76,12 @@ export function AppSidebar() {
                             className="font-semibold tracking-tight"
                             render={<Link href="/" />}
                         >
-                            <span className="relative flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-primary text-sm text-primary-foreground">
+                            <span className="relative flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-lg  text-primary-foreground">
                                 <Image
-                                    src="/nexoraIcon_transparent.png"
+                                    src="/nexoraIcon_transparentsvg.svg"
                                     alt="Nexora AI logo"
                                     fill
+                                    sizes="25px"
                                     className="object-cover"
                                 />
                             </span>

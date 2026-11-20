@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 import { Toaster } from "react-hot-toast";
+import { TooltipProvider } from "@/components/ui/tooltip";
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const geistSans = Geist({
@@ -78,7 +79,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                   },
                 }}
               />
-              {children}
+              <TooltipProvider>{children}</TooltipProvider> 
 
             </ThemeProvider>
           </QueryProvider>
