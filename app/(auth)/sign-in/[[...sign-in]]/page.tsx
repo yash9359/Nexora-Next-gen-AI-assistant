@@ -2,15 +2,18 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useSignIn } from "@clerk/nextjs";
+import { useSignIn, useAuth } from "@clerk/nextjs";
 import { useTheme } from "next-themes";
 import { Loader2, ArrowUpRight, Sun, Moon } from "lucide-react";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type OAuthStrategy = "oauth_google" | "oauth_github";
 
 export default function SignInPage() {
   const { signIn, fetchStatus } = useSignIn();
+  const { isSignedIn, isLoaded: isAuthLoaded } = useAuth();
+  const router = useRouter();
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -21,6 +24,13 @@ export default function SignInPage() {
     setMounted(true);
   }, []);
 
+  // If already authenticated, redirect immediately to home
+  useEffect(() => {
+    if (isAuthLoaded && isSignedIn) {
+      router.replace("/");
+    }
+  }, [isAuthLoaded, isSignedIn, router]);
+
   const isBusy = fetchStatus === "fetching" || loadingProvider !== null;
 
   async function handleOAuth(strategy: OAuthStrategy) {
@@ -29,14 +39,14 @@ export default function SignInPage() {
     try {
       setLoadingProvider(strategy);
 
-      const { error } = await signIn.sso({
+      const result = await signIn.sso({
         strategy,
-        redirectUrl: `${window.location.origin}/sso-callback`,
-        redirectCallbackUrl: `${window.location.origin}/`,
+        redirectCallbackUrl: `${window.location.origin}/sso-callback`,
+        redirectUrl: `${window.location.origin}/`,
       });
 
-      if (error) {
-        toast.error(error.message || "Sign in failed");
+      if (result?.error) {
+        toast.error(result.error.message || "Sign in failed");
         setLoadingProvider(null);
       }
     } catch (err) {
@@ -45,6 +55,15 @@ export default function SignInPage() {
       );
       setLoadingProvider(null);
     }
+  }
+
+  // Prevent flash of sign-in page if already signed in
+  if (isAuthLoaded && isSignedIn) {
+    return (
+      <div className="flex min-h-svh w-full items-center justify-center bg-white dark:bg-[#08090d]">
+        <Loader2 className="size-8 animate-spin text-zinc-500" />
+      </div>
+    );
   }
 
   return (
@@ -63,10 +82,22 @@ export default function SignInPage() {
         )}
       </button>
 
-      {/* LEFT: Always Dark Rich Branding Panel */}
-      <section className="relative hidden h-svh overflow-hidden border-r border-zinc-200/80 bg-[#08090d] text-white dark:border-white/[0.06] lg:flex">
-        {/* Full Background Logo/Image */}
-        <div className="absolute inset-0">
+      {/* LEFT: Adaptive Rich Branding Panel */}
+      <section className="relative hidden h-svh overflow-hidden border-r border-zinc-200 bg-slate-50 text-zinc-900 dark:border-white/[0.06] dark:bg-[#08090d] dark:text-white lg:flex">
+        {/* Full Background Logo - Light Mode */}
+        <div className="absolute inset-0 dark:hidden">
+          <Image
+            src="/nexoraIcon_transparentsvg.svg"
+            alt=""
+            fill
+            priority
+            sizes="50vw"
+            className="scale-[1.25] object-contain opacity-[0.05]"
+          />
+        </div>
+
+        {/* Full Background Logo - Dark Mode (Exact Original) */}
+        <div className="absolute inset-0 hidden dark:block">
           <Image
             src="/nexoraIcon_transparentsvg.svg"
             alt="Nexora AI Background"
@@ -77,18 +108,37 @@ export default function SignInPage() {
           />
         </div>
 
-        {/* Dark Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#08090d]/75 via-[#08090d]/65 to-[#08090d]/95" />
+        {/* Gradient Overlay - Light Mode */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-slate-50/80 to-indigo-50/30 dark:hidden" />
 
-        {/* Ambient Glows */}
-        <div className="absolute inset-0 overflow-hidden">
+        {/* Gradient Overlay - Dark Mode (Exact Original) */}
+        <div className="absolute inset-0 hidden bg-gradient-to-br from-[#08090d]/75 via-[#08090d]/65 to-[#08090d]/95 dark:block" />
+
+        {/* Ambient Glows - Light Mode */}
+        <div className="absolute inset-0 overflow-hidden dark:hidden">
+          <div className="absolute -left-32 -top-32 size-[450px] rounded-full bg-indigo-300/25 blur-[130px]" />
+          <div className="absolute -bottom-32 -right-20 size-[450px] rounded-full bg-purple-300/20 blur-[130px]" />
+        </div>
+
+        {/* Ambient Glows - Dark Mode (Exact Original) */}
+        <div className="absolute inset-0 hidden overflow-hidden dark:block">
           <div className="absolute -left-32 -top-32 size-[450px] rounded-full bg-indigo-600/20 blur-[140px]" />
           <div className="absolute -bottom-32 -right-20 size-[450px] rounded-full bg-violet-600/20 blur-[140px]" />
         </div>
 
-        {/* Grid */}
+        {/* Grid - Light Mode */}
         <div
-          className="absolute inset-0 opacity-[0.12]"
+          className="absolute inset-0 opacity-[0.5] dark:hidden"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(0,0,0,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.035) 1px, transparent 1px)",
+            backgroundSize: "55px 55px",
+          }}
+        />
+
+        {/* Grid - Dark Mode (Exact Original) */}
+        <div
+          className="absolute inset-0 hidden opacity-[0.12] dark:block"
           style={{
             backgroundImage:
               "linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)",
@@ -108,7 +158,7 @@ export default function SignInPage() {
                 className="object-contain"
               />
             </div>
-            <span className="text-lg font-semibold tracking-tight text-white">
+            <span className="text-lg font-semibold tracking-tight text-zinc-900 dark:text-white">
               Nexora AI
             </span>
           </div>
@@ -117,8 +167,24 @@ export default function SignInPage() {
           <div className="mx-auto w-full max-w-lg">
             {/* Hero Logo */}
             <div className="relative mb-8 flex justify-center">
-              <div className="absolute size-48 rounded-full bg-indigo-500/25 blur-[90px]" />
-              <div className="relative size-44 xl:size-52">
+              {/* Light Mode Hero Glow */}
+              <div className="absolute size-48 rounded-full bg-indigo-500/15 blur-[80px] dark:hidden" />
+              {/* Dark Mode Hero Glow (Exact Original) */}
+              <div className="absolute size-48 rounded-full bg-indigo-500/25 blur-[90px] hidden dark:block" />
+
+              {/* Light Mode Hero Icon */}
+              <div className="relative size-44 xl:size-52 dark:hidden">
+                <Image
+                  src="/nexoraIcon_transparentsvg.svg"
+                  alt="Nexora AI"
+                  fill
+                  priority
+                  className="object-contain drop-shadow-[0_12px_30px_rgba(99,102,241,0.2)]"
+                />
+              </div>
+
+              {/* Dark Mode Hero Icon (Exact Original) */}
+              <div className="relative size-44 xl:size-52 hidden dark:block">
                 <Image
                   src="/nexoraIcon_transparentsvg.svg"
                   alt="Nexora AI"
@@ -129,21 +195,21 @@ export default function SignInPage() {
               </div>
             </div>
 
-            <h1 className="text-center text-4xl font-bold tracking-tight text-white xl:text-5xl">
+            <h1 className="text-center text-4xl font-bold tracking-tight text-zinc-900 xl:text-5xl dark:text-white">
               Think Beyond.
-              <span className="mt-1.5 block bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="mt-1.5 block bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600 bg-clip-text text-transparent dark:from-indigo-400 dark:via-violet-400 dark:to-purple-400">
                 Build Without Limits.
               </span>
             </h1>
 
-            <p className="mx-auto mt-4 max-w-md text-center text-sm leading-6 text-zinc-400">
+            <p className="mx-auto mt-4 max-w-md text-center text-sm leading-6 text-zinc-600 dark:text-zinc-400">
               Think faster, debug cleaner, and brainstorm without limits. Your
               personal AI workspace built for everyday problem solving.
             </p>
           </div>
 
           {/* Bottom Copyright */}
-          <p className="text-xs text-zinc-600">
+          <p className="text-xs text-zinc-400 dark:text-zinc-600">
             © 2026 Nexora AI. Built for curious minds.
           </p>
         </div>
@@ -151,7 +217,7 @@ export default function SignInPage() {
 
       {/* RIGHT: Clean Adaptive Sign-In */}
       <section className="relative flex min-h-svh items-center justify-center overflow-hidden px-6 py-8 lg:h-svh">
-        {/* Desktop subtle dark-mode glow */}
+        {/* Desktop subtle dark-mode glow (Exact Original) */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 hidden dark:lg:block"
@@ -159,7 +225,7 @@ export default function SignInPage() {
           <div className="absolute right-0 top-1/2 size-[420px] -translate-y-1/2 translate-x-1/3 rounded-full bg-indigo-500/10 blur-[140px]" />
         </div>
 
-        {/* Mobile Background */}
+        {/* Mobile Background (Exact Original) */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 lg:hidden"
